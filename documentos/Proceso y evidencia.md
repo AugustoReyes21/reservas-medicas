@@ -20,7 +20,7 @@ La idea fue mantener una solucion pequeña pero coherente, facil de explicar y s
 1. Ejecutar `npm install`.
 2. Ejecutar `npm start`.
 3. Abrir `http://localhost:3000/`.
-4. Probar en navegador o con una herramienta de API las rutas `/api/disponibilidad` y `/api/reservas`.
+4. Iniciar sesion y despues probar en navegador o con una herramienta de API las rutas `/api/disponibilidad` y `/api/reservas`.
 5. Ejecutar `npm test` para mostrar la validacion automatica.
 
 ## Historial de avances
@@ -30,5 +30,7 @@ Registro real de commits generados durante el desarrollo:
 1. `8c78c00` - Agrega documentacion inicial y wireframes
 2. `8069830` - Implementa API y base de datos inicial
 3. `b14878d` - Agrega pruebas y guion de presentacion
+4. `3b04b7a` - Actualiza evidencia con historial real
+5. `a01d6d4` - Refuerza acceso con login y vistas protegidas
 
 Con este historial se puede mostrar que el trabajo fue avanzando por etapas y no aparecio de una sola vez.
