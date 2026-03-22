@@ -25,4 +25,10 @@ La idea fue mantener una solucion pequeña pero coherente, facil de explicar y s
 
 ## Historial de avances
 
-Este apartado se actualiza al final con el registro real de commits generados durante el desarrollo.
+Registro real de commits generados durante el desarrollo:
+
+1. `8c78c00` - Agrega documentacion inicial y wireframes
+2. `8069830` - Implementa API y base de datos inicial
+3. `b14878d` - Agrega pruebas y guion de presentacion
+
+Con este historial se puede mostrar que el trabajo fue avanzando por etapas y no aparecio de una sola vez.
