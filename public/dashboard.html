@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/estilos.css">
+  </head>
+  <body>
+    <div class="contenedor">
+      <div class="barra">
+        <div>
+          <div class="marca">Dashboard</div>
+          <div class="mini">Resumen general del sistema</div>
+        </div>
+        <div class="acciones">
+          <a class="boton" href="/login.html">Login</a>
+          <a class="boton" href="/reserva.html">Nueva reserva</a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <aside class="menu">
+          <div class="opcion">Inicio</div>
+          <div class="opcion">Espacios</div>
+          <div class="opcion">Reservas</div>
+          <div class="opcion">Disponibilidad</div>
+          <div class="opcion">Usuarios</div>
+        </aside>
+
+        <main class="rejilla">
+          <section class="resumen">
+            <div class="bloque">
+              <p class="numero">12</p>
+              <div>Reservas hoy</div>
+            </div>
+            <div class="bloque">
+              <p class="numero">03</p>
+              <div>Espacios libres ahora</div>
+            </div>
+            <div class="bloque">
+              <p class="numero">04</p>
+              <div>Solicitudes pendientes</div>
+            </div>
+          </section>
+
+          <section class="tarjeta">
+            <h1 class="titulo">Consulta rapida</h1>
+            <p class="subtitulo">
+              El dashboard mezcla informacion del dia con atajos para no obligar al usuario a navegar demasiado.
+            </p>
+            <div class="rejilla tres">
+              <div class="campo">
+                <label class="etiqueta">Fecha</label>
+                <input class="caja" type="date" value="2026-03-25">
+              </div>
+              <div class="campo">
+                <label class="etiqueta">Hora inicio</label>
+                <input class="caja" type="time" value="08:00">
+              </div>
+              <div class="campo">
+                <label class="etiqueta">Hora fin</label>
+                <input class="caja" type="time" value="10:00">
+              </div>
+            </div>
+          </section>
+
+          <section class="tarjeta">
+            <h2 class="titulo">Reservas recientes</h2>
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Espacio</th>
+                  <th>Responsable</th>
+                  <th>Horario</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Salon A101</td>
+                  <td>Ana Lopez</td>
+                  <td>08:00 - 10:00</td>
+                  <td>Confirmada</td>
+                </tr>
+                <tr>
+                  <td>Laboratorio Redes</td>
+                  <td>Carlos Mena</td>
+                  <td>10:00 - 12:00</td>
+                  <td>Confirmada</td>
+                </tr>
+                <tr>
+                  <td>Auditorio Central</td>
+                  <td>Maria Soto</td>
+                  <td>14:00 - 16:00</td>
+                  <td>Pendiente</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva</title>
+    <link rel="stylesheet" href="/estilos.css">
+  </head>
+  <body>
+    <div class="contenedor">
+      <div class="barra">
+        <div>
+          <div class="marca">Reserva</div>
+          <div class="mini">Pantalla principal de solicitud</div>
+        </div>
+        <div class="acciones">
+          <a class="boton" href="/dashboard.html">Dashboard</a>
+          <a class="boton" href="/login.html">Salir</a>
+        </div>
+      </div>
+
+      <div class="rejilla dos">
+        <section class="tarjeta">
+          <h1 class="titulo">Nueva reserva</h1>
+          <p class="subtitulo">
+            Formulario pensado para completar la solicitud en pocos pasos.
+          </p>
+
+          <div class="rejilla tres">
+            <div class="campo">
+              <label class="etiqueta">Espacio</label>
+              <select class="seleccion">
+                <option>Salon A101</option>
+                <option>Laboratorio Redes</option>
+                <option>Auditorio Central</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label class="etiqueta">Fecha</label>
+              <input class="caja" type="date" value="2026-03-25">
+            </div>
+            <div class="campo">
+              <label class="etiqueta">Tipo</label>
+              <select class="seleccion">
+                <option>Clase</option>
+                <option>Practica</option>
+                <option>Evento</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rejilla dos">
+            <div class="campo">
+              <label class="etiqueta">Hora inicio</label>
+              <input class="caja" type="time" value="08:00">
+            </div>
+            <div class="campo">
+              <label class="etiqueta">Hora fin</label>
+              <input class="caja" type="time" value="10:00">
+            </div>
+          </div>
+
+          <div class="campo">
+            <label class="etiqueta">Motivo</label>
+            <textarea class="area" placeholder="Ejemplo: clase de base de datos para segundo semestre"></textarea>
+          </div>
+
+          <div class="campo">
+            <a class="boton" href="#">Guardar reserva</a>
+          </div>
+        </section>
+
+        <aside class="tarjeta">
+          <h2 class="titulo">Apoyo visual</h2>
+          <div class="linea">
+            <span>Disponibilidad sugerida</span>
+            <strong>Libre</strong>
+          </div>
+          <div class="linea">
+            <span>Capacidad</span>
+            <strong>35 personas</strong>
+          </div>
+          <div class="linea">
+            <span>Ubicacion</span>
+            <strong>Edificio A</strong>
+          </div>
+          <div class="nota">
+            Esta columna ayuda a tomar decisiones antes de enviar la reserva y evita errores de seleccion.
+          </div>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>
