@@ -6,62 +6,80 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="/estilos.css">
   </head>
-  <body>
+  <body class="protegida">
     <div class="contenedor">
       <div class="barra">
         <div>
           <div class="marca">Dashboard</div>
-          <div class="mini">Resumen general del sistema</div>
+          <div class="mini">
+            Sesion activa de <strong data-nombre-usuario>Usuario</strong>
+          </div>
         </div>
         <div class="acciones">
-          <a class="boton" href="/login.html">Login</a>
           <a class="boton" href="/reserva.html">Nueva reserva</a>
+          <button class="boton botonSecundario" type="button" data-cerrar-sesion>
+            Cerrar sesion
+          </button>
         </div>
       </div>
 
       <div class="panel">
         <aside class="menu">
-          <div class="opcion">Inicio</div>
-          <div class="opcion">Espacios</div>
-          <div class="opcion">Reservas</div>
+          <div class="opcion opcionActiva">Resumen del dia</div>
+          <div class="opcion">Espacios academicos</div>
+          <div class="opcion">Reservas creadas</div>
           <div class="opcion">Disponibilidad</div>
-          <div class="opcion">Usuarios</div>
+          <div class="opcion">Cuenta activa</div>
+          <div class="notaMenu">
+            Correo actual: <strong data-correo-usuario>usuario@universidad.edu</strong>
+          </div>
         </aside>
 
         <main class="rejilla">
+          <section class="tarjeta destaque">
+            <h1 class="titulo">Vista general del sistema</h1>
+            <p class="subtitulo">
+              Desde aqui puedes revisar el movimiento de reservas y detectar rapidamente
+              cuantos espacios siguen libres para el horario que te interesa.
+            </p>
+          </section>
+
           <section class="resumen">
             <div class="bloque">
-              <p class="numero">12</p>
-              <div>Reservas hoy</div>
+              <p class="numero" id="conteoReservas">0</p>
+              <div>Reservas registradas</div>
             </div>
             <div class="bloque">
-              <p class="numero">03</p>
-              <div>Espacios libres ahora</div>
+              <p class="numero" id="conteoEspacios">0</p>
+              <div>Espacios activos</div>
             </div>
             <div class="bloque">
-              <p class="numero">04</p>
-              <div>Solicitudes pendientes</div>
+              <p class="numero" id="conteoDisponibles">0</p>
+              <div>Disponibles en consulta</div>
             </div>
           </section>
 
           <section class="tarjeta">
-            <h1 class="titulo">Consulta rapida</h1>
+            <h2 class="titulo">Consulta rapida</h2>
             <p class="subtitulo">
-              El dashboard mezcla informacion del dia con atajos para no obligar al usuario a navegar demasiado.
+              Ajusta fecha y horario para ver al instante cuantos espacios siguen libres.
             </p>
             <div class="rejilla tres">
               <div class="campo">
-                <label class="etiqueta">Fecha</label>
-                <input class="caja" type="date" value="2026-03-25">
+                <label class="etiqueta" for="fechaConsulta">Fecha</label>
+                <input class="caja" id="fechaConsulta" type="date">
               </div>
               <div class="campo">
-                <label class="etiqueta">Hora inicio</label>
-                <input class="caja" type="time" value="08:00">
+                <label class="etiqueta" for="horaInicioConsulta">Hora inicio</label>
+                <input class="caja" id="horaInicioConsulta" type="time" value="08:00">
               </div>
               <div class="campo">
-                <label class="etiqueta">Hora fin</label>
-                <input class="caja" type="time" value="10:00">
+                <label class="etiqueta" for="horaFinConsulta">Hora fin</label>
+                <input class="caja" id="horaFinConsulta" type="time" value="10:00">
               </div>
+            </div>
+            <div class="nota" id="estadoConsulta">
+              Selecciona un horario para calcular la disponibilidad real.
             </div>
           </section>
 
@@ -76,30 +94,16 @@
                   <th>Estado</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Salon A101</td>
-                  <td>Ana Lopez</td>
-                  <td>08:00 - 10:00</td>
-                  <td>Confirmada</td>
-                </tr>
-                <tr>
-                  <td>Laboratorio Redes</td>
-                  <td>Carlos Mena</td>
-                  <td>10:00 - 12:00</td>
-                  <td>Confirmada</td>
-                </tr>
-                <tr>
-                  <td>Auditorio Central</td>
-                  <td>Maria Soto</td>
-                  <td>14:00 - 16:00</td>
-                  <td>Pendiente</td>
-                </tr>
-              </tbody>
+              <tbody id="tablaReservas"></tbody>
             </table>
+            <div class="nota" id="notaReservas">
+              Las reservas se cargan desde la base de datos al entrar al dashboard.
+            </div>
           </section>
         </main>
       </div>
     </div>
+    <script src="/autenticacion.js"></script>
+    <script src="/dashboard.js"></script>
   </body>
 </html>

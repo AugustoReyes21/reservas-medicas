@@ -16,15 +16,15 @@ Primero explico rapidamente el problema. En muchas instituciones las reservas se
 
 En la carpeta de documentos prepare el analisis del sistema. Aqui se puede ver la definicion del problema, los requerimientos funcionales, los no funcionales y tambien una lista de preguntas clave que yo le haria al cliente para entender mejor el alcance real del proyecto.
 
-Ahora paso a la parte de diseño. Cree tres pantallas principales. La primera es el login, donde el usuario entra al sistema. La segunda es el dashboard, que resume espacios, reservas y accesos rapidos. La tercera es la pantalla de reserva, donde se selecciona el espacio, la fecha, el horario y el motivo de uso.
+Ahora paso a la parte de diseño. Cree tres pantallas principales. La primera es el login, que ahora funciona como puerta de entrada obligatoria. Eso significa que antes de iniciar sesion no se puede ver ni el dashboard ni la pantalla de reserva. La segunda es el dashboard, que resume espacios, reservas y accesos rapidos. La tercera es la pantalla de reserva, donde se selecciona el espacio, la fecha, el horario y el motivo de uso.
 
 En la parte tecnica implemente un backend con Node.js y Express, y use SQLite como base de datos. El modelo tiene tres tablas relacionadas: usuarios, espacios y reservas. Esto permite mantener la integridad de la informacion y deja una base sencilla pero funcional.
 
-La API ya incluye rutas para registrar usuarios, listar espacios, consultar disponibilidad y crear reservas. Una validacion importante es que el sistema evita dobles reservas. Si ya existe una reserva en el mismo espacio y horario, la API responde con un error y no permite guardar el cruce.
+La API ya incluye rutas para iniciar sesion, registrar usuarios, listar espacios, consultar disponibilidad y crear reservas. Una validacion importante es que el sistema evita dobles reservas. Si ya existe una reserva en el mismo espacio y horario, la API responde con un error y no permite guardar el cruce.
 
-Ahora voy a mostrar una prueba. Primero levanto el servidor con npm start. Luego consulto la disponibilidad con la ruta GET. Despues creo una reserva con la ruta POST. Finalmente intento crear otra reserva que se cruza con la anterior para demostrar que la validacion funciona correctamente.
+Ahora voy a mostrar una prueba. Primero levanto el servidor con npm start. Luego entro con el usuario de demostracion. Despues consulto la disponibilidad con la ruta GET. Luego creo una reserva con la ruta POST. Finalmente intento crear otra reserva que se cruza con la anterior para demostrar que la validacion funciona correctamente.
 
-Tambien deje una prueba automatica con npm test. Esa prueba crea un usuario, revisa la disponibilidad, registra una reserva y confirma que una segunda reserva cruzada sea rechazada. Con eso queda evidencia de que la base del sistema ya funciona.
+Tambien deje una prueba automatica con npm test. Esa prueba valida el login, crea un usuario, revisa la disponibilidad, registra una reserva y confirma que una segunda reserva cruzada sea rechazada. Con eso queda evidencia de que la base del sistema ya funciona.
 
 En resumen, esta entrega cubre el analisis, el diseño y una implementacion inicial coherente del backend y la base de datos. Gracias.
 

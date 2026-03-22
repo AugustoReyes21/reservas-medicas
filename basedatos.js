@@ -58,6 +58,15 @@ function registrarUsuario({ nombre, correo, clave, rol = 'docente' }) {
   `).get(resultado.lastInsertRowid);
 }
 
+function autenticarUsuario({ correo, clave }) {
+  const db = obtenerConexion();
+  return db.prepare(`
+    SELECT id, nombre, correo, rol, creado_en
+    FROM usuarios
+    WHERE correo = ? AND clave = ?
+  `).get(correo, hashClave(clave));
+}
+
 function obtenerEspacios() {
   return obtenerConexion().prepare(`
     SELECT id, nombre, tipo, ubicacion, capacidad, activo
@@ -202,6 +211,7 @@ function obtenerReservas() {
 module.exports = {
   obtenerConexion,
   registrarUsuario,
+  autenticarUsuario,
   obtenerEspacios,
   obtenerDisponibilidad,
   crearReserva,

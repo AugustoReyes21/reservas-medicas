@@ -56,6 +56,15 @@ async function ejecutar() {
   try {
     await esperarServidor(`http://127.0.0.1:${puerto}/api`);
 
+    const loginDemo = await llamar(`http://127.0.0.1:${puerto}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        correo: 'coordinacion@universidad.edu',
+        clave: 'clave123'
+      })
+    });
+
     const usuario = await llamar(`http://127.0.0.1:${puerto}/api/usuarios`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -64,6 +73,15 @@ async function ejecutar() {
         correo: 'ana@universidad.edu',
         clave: 'clave123',
         rol: 'docente'
+      })
+    });
+
+    const loginUsuario = await llamar(`http://127.0.0.1:${puerto}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        correo: 'ana@universidad.edu',
+        clave: 'clave123'
       })
     });
 
@@ -102,14 +120,18 @@ async function ejecutar() {
     );
 
     console.log('\nResumen de prueba');
+    console.log(`Login demo: ${loginDemo.respuesta.status}`);
     console.log(`Usuario creado: ${usuario.respuesta.status}`);
+    console.log(`Login usuario nuevo: ${loginUsuario.respuesta.status}`);
     console.log(`Disponibilidad inicial: ${disponibilidadInicial.datos.cantidad} espacios`);
     console.log(`Reserva creada: ${reserva.respuesta.status}`);
     console.log(`Reserva duplicada bloqueada: ${reservaDuplicada.respuesta.status}`);
     console.log(`Disponibilidad final: ${disponibilidadFinal.datos.cantidad} espacios`);
 
     if (
+      loginDemo.respuesta.status !== 200 ||
       usuario.respuesta.status !== 201 ||
+      loginUsuario.respuesta.status !== 200 ||
       reserva.respuesta.status !== 201 ||
       reservaDuplicada.respuesta.status !== 409 ||
       disponibilidadInicial.datos.cantidad !== 3 ||

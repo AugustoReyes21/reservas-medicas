@@ -4,7 +4,7 @@
 
 El desarrollo se realizo en cuatro momentos. Primero se definio claramente el problema y el alcance minimo del sistema. Despues se organizo el diseno visual en tres pantallas para mostrar como se moveria un usuario dentro del sistema. En la tercera etapa se construyo el backend con Node.js, Express y SQLite para tener una API funcional. Por ultimo se hicieron pruebas para confirmar que la disponibilidad se consulte bien y que una doble reserva sea rechazada.
 
-La idea fue mantener una solucion pequeña pero coherente, facil de explicar y suficientemente real para demostrar analisis, diseño, modelo de datos e implementacion tecnica en una sola entrega.
+La idea fue mantener una solucion pequeña pero coherente, facil de explicar y suficientemente real para demostrar analisis, diseño, modelo de datos e implementacion tecnica en una sola entrega. En la mejora mas reciente se reforzo el acceso para que el dashboard y la reserva queden ocultos hasta iniciar sesion.
 
 ## Evidencia disponible
 
@@ -19,7 +19,7 @@ La idea fue mantener una solucion pequeña pero coherente, facil de explicar y s
 
 1. Ejecutar `npm install`.
 2. Ejecutar `npm start`.
-3. Abrir `http://localhost:3000/login.html`.
+3. Abrir `http://localhost:3000/`.
 4. Probar en navegador o con una herramienta de API las rutas `/api/disponibilidad` y `/api/reservas`.
 5. Ejecutar `npm test` para mostrar la validacion automatica.
 

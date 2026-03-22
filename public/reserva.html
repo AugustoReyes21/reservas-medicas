@@ -6,89 +6,99 @@
     <title>Reserva</title>
     <link rel="stylesheet" href="/estilos.css">
   </head>
-  <body>
+  <body class="protegida">
     <div class="contenedor">
       <div class="barra">
         <div>
           <div class="marca">Reserva</div>
-          <div class="mini">Pantalla principal de solicitud</div>
+          <div class="mini">
+            Nueva solicitud para <strong data-nombre-usuario>Usuario</strong>
+          </div>
         </div>
         <div class="acciones">
           <a class="boton" href="/dashboard.html">Dashboard</a>
-          <a class="boton" href="/login.html">Salir</a>
+          <button class="boton botonSecundario" type="button" data-cerrar-sesion>
+            Cerrar sesion
+          </button>
         </div>
       </div>
 
       <div class="rejilla dos">
-        <section class="tarjeta">
+        <section class="tarjeta destaque">
           <h1 class="titulo">Nueva reserva</h1>
           <p class="subtitulo">
-            Formulario pensado para completar la solicitud en pocos pasos.
+            Completa la solicitud con el usuario actual y el sistema evitara reservas cruzadas.
           </p>
 
-          <div class="rejilla tres">
-            <div class="campo">
-              <label class="etiqueta">Espacio</label>
-              <select class="seleccion">
-                <option>Salon A101</option>
-                <option>Laboratorio Redes</option>
-                <option>Auditorio Central</option>
-              </select>
+          <form id="formularioReserva">
+            <div class="rejilla tres">
+              <div class="campo">
+                <label class="etiqueta" for="espacioId">Espacio</label>
+                <select class="seleccion" id="espacioId" name="espacioId" required></select>
+              </div>
+              <div class="campo">
+                <label class="etiqueta" for="fechaReserva">Fecha</label>
+                <input class="caja" id="fechaReserva" name="fecha" type="date" required>
+              </div>
+              <div class="campo">
+                <label class="etiqueta" for="motivoReserva">Motivo</label>
+                <input
+                  class="caja"
+                  id="motivoReserva"
+                  name="motivo"
+                  type="text"
+                  placeholder="Clase, practica o actividad"
+                  required
+                >
+              </div>
             </div>
-            <div class="campo">
-              <label class="etiqueta">Fecha</label>
-              <input class="caja" type="date" value="2026-03-25">
-            </div>
-            <div class="campo">
-              <label class="etiqueta">Tipo</label>
-              <select class="seleccion">
-                <option>Clase</option>
-                <option>Practica</option>
-                <option>Evento</option>
-              </select>
-            </div>
-          </div>
 
-          <div class="rejilla dos">
-            <div class="campo">
-              <label class="etiqueta">Hora inicio</label>
-              <input class="caja" type="time" value="08:00">
+            <div class="rejilla dos">
+              <div class="campo">
+                <label class="etiqueta" for="horaInicioReserva">Hora inicio</label>
+                <input class="caja" id="horaInicioReserva" name="horaInicio" type="time" value="08:00" required>
+              </div>
+              <div class="campo">
+                <label class="etiqueta" for="horaFinReserva">Hora fin</label>
+                <input class="caja" id="horaFinReserva" name="horaFin" type="time" value="10:00" required>
+              </div>
             </div>
-            <div class="campo">
-              <label class="etiqueta">Hora fin</label>
-              <input class="caja" type="time" value="10:00">
-            </div>
-          </div>
 
-          <div class="campo">
-            <label class="etiqueta">Motivo</label>
-            <textarea class="area" placeholder="Ejemplo: clase de base de datos para segundo semestre"></textarea>
-          </div>
+            <div id="mensajeReserva" class="mensaje" aria-live="polite"></div>
 
-          <div class="campo">
-            <a class="boton" href="#">Guardar reserva</a>
-          </div>
+            <button class="boton botonPrimario anchoTotal" type="submit">
+              Guardar reserva
+            </button>
+          </form>
         </section>
 
         <aside class="tarjeta">
-          <h2 class="titulo">Apoyo visual</h2>
+          <h2 class="titulo">Estado del espacio</h2>
           <div class="linea">
-            <span>Disponibilidad sugerida</span>
-            <strong>Libre</strong>
+            <span>Disponibilidad</span>
+            <strong id="estadoEspacio">Sin revisar</strong>
           </div>
           <div class="linea">
             <span>Capacidad</span>
-            <strong>35 personas</strong>
+            <strong id="capacidadEspacio">0 personas</strong>
           </div>
           <div class="linea">
             <span>Ubicacion</span>
-            <strong>Edificio A</strong>
+            <strong id="ubicacionEspacio">Pendiente</strong>
+          </div>
+          <div class="linea">
+            <span>Tipo</span>
+            <strong id="tipoEspacio">Pendiente</strong>
           </div>
           <div class="nota">
-            Esta columna ayuda a tomar decisiones antes de enviar la reserva y evita errores de seleccion.
+            <span id="detalleDisponibilidad">
+              Cambia fecha y horario para revisar si el espacio sigue libre antes de guardar.
+            </span>
           </div>
         </aside>
       </div>
     </div>
+    <script src="/autenticacion.js"></script>
+    <script src="/reserva.js"></script>
   </body>
 </html>

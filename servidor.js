@@ -4,6 +4,7 @@ const cors = require('cors');
 const {
   obtenerConexion,
   registrarUsuario,
+  autenticarUsuario,
   obtenerEspacios,
   obtenerDisponibilidad,
   crearReserva,
@@ -74,6 +75,30 @@ app.post('/api/usuarios', (req, res) => {
 
     return responderError(res, 500, 'No fue posible registrar el usuario');
   }
+});
+
+app.post('/api/login', (req, res) => {
+  const { correo, clave } = req.body;
+
+  if (!correo || !clave) {
+    return responderError(res, 400, 'Correo y clave son obligatorios');
+  }
+
+  if (!correoValido(correo)) {
+    return responderError(res, 400, 'El correo no tiene un formato valido');
+  }
+
+  const usuario = autenticarUsuario({ correo, clave });
+
+  if (!usuario) {
+    return responderError(res, 401, 'Credenciales incorrectas');
+  }
+
+  return res.json({
+    ok: true,
+    mensaje: 'Inicio de sesion correcto',
+    datos: usuario
+  });
 });
 
 app.get('/api/espacios', (_req, res) => {

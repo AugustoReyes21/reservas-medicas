@@ -20,7 +20,7 @@ Los wireframes estan en la carpeta `public` y se pueden abrir en el navegador al
 
 ### Pantalla 1: Login
 
-Muestra el ingreso al sistema con formulario de correo y clave, recordatorio institucional y acceso al panel principal.
+Muestra el ingreso al sistema con formulario de correo y clave. Esta pantalla funciona como puerta de entrada obligatoria para que el dashboard y la reserva no puedan verse antes de iniciar sesion.
 
 ### Pantalla 2: Dashboard
 
@@ -101,10 +101,11 @@ erDiagram
 ## API inicial implementada
 
 1. `POST /api/usuarios` para registrar usuarios.
-2. `GET /api/espacios` para listar espacios activos.
-3. `GET /api/disponibilidad` para consultar espacios libres en una fecha y horario.
-4. `GET /api/reservas` para revisar reservas almacenadas.
-5. `POST /api/reservas` para crear una reserva validando cruces.
+2. `POST /api/login` para validar el acceso al sistema.
+3. `GET /api/espacios` para listar espacios activos.
+4. `GET /api/disponibilidad` para consultar espacios libres en una fecha y horario.
+5. `GET /api/reservas` para revisar reservas almacenadas.
+6. `POST /api/reservas` para crear una reserva validando cruces.
 
 ## Validaciones incluidas
 
