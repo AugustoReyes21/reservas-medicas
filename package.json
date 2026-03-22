@@ -1,0 +1,25 @@
+{
+  "name": "sistemareservasacademicas",
+  "version": "1.0.0",
+  "description": "Base de un sistema de reservas para espacios academicos",
+  "main": "servidor.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node servidor.js",
+    "dev": "node servidor.js",
+    "test": "node pruebas.js"
+  },
+  "keywords": [
+    "reservas",
+    "academico",
+    "backend",
+    "sqlite"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
