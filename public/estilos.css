@@ -109,6 +109,12 @@ button {
   align-items: stretch;
 }
 
+.panelAccesoSimple {
+  position: relative;
+  z-index: 1;
+  width: min(460px, calc(100% - 24px));
+}
+
 .ladoPresentacion,
 .panelFormulario {
   border-radius: 32px;
@@ -217,6 +223,10 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
+.accesoCentrado {
+  padding: 38px 32px;
+}
+
 .selloFormulario {
   display: inline-block;
   padding: 7px 12px;
@@ -229,8 +239,9 @@ button {
 }
 
 .tituloFormulario {
-  margin: 18px 0 8px;
+  margin: 0 0 18px;
   font-size: 34px;
+  text-align: center;
 }
 
 .subtituloFormulario {
@@ -324,6 +335,7 @@ button {
 .rejilla {
   display: grid;
   gap: 18px;
+  align-content: start;
 }
 
 .dos {
@@ -331,7 +343,7 @@ button {
 }
 
 .tres {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .tarjeta {
@@ -420,12 +432,17 @@ button {
 
 .resumen {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+  align-items: stretch;
 }
 
 .bloque {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 22px;
+  min-height: 150px;
   border-radius: 22px;
   border: 1px solid rgba(212, 195, 175, 0.92);
   background:
@@ -440,8 +457,9 @@ button {
 
 .panel {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: minmax(220px, 250px) minmax(0, 1fr);
   gap: 18px;
+  align-items: start;
 }
 
 .menu {
@@ -488,6 +506,7 @@ button {
   width: 100%;
   border-collapse: collapse;
   font-size: 15px;
+  table-layout: fixed;
 }
 
 .tabla th,
@@ -502,14 +521,15 @@ button {
   font-weight: normal;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 860px) {
   .panelAcceso,
   .dos,
   .panel {
     grid-template-columns: 1fr;
   }
+}
 
-  .mosaicoHero,
+@media (max-width: 760px) {
   .tres,
   .resumen {
     grid-template-columns: 1fr;
@@ -526,6 +546,10 @@ button {
 
   .tituloHero {
     font-size: 38px;
+  }
+
+  .tituloFormulario {
+    font-size: 30px;
   }
 
   .barra {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Iniciar sesion</title>
     <link rel="stylesheet" href="/estilos.css">
   </head>
   <body class="paginaAcceso">
@@ -12,92 +12,43 @@
       <div class="orbita orbitaDos"></div>
       <div class="orbita orbitaTres"></div>
 
-      <main class="panelAcceso">
-        <section class="ladoPresentacion">
-          <span class="etiquetaHero">Sistema de reservas academicas</span>
-          <h1 class="tituloHero">
-            Un inicio limpio para entrar, revisar el dashboard y reservar sin choques de horario.
-          </h1>
-          <p class="textoHero">
-            La pantalla inicial ahora es solo de acceso. Hasta iniciar sesion no se muestran
-            el panel principal ni la vista de nueva reserva, lo que hace la experiencia mucho
-            mas coherente para la demostracion.
-          </p>
+      <main class="panelAccesoSimple">
+        <section class="panelFormulario accesoCentrado">
+          <h1 class="tituloFormulario">Iniciar sesion</h1>
 
-          <div class="mosaicoHero">
-            <div class="piezaHero">
-              <strong>Salones</strong>
-              <span>Consulta inmediata por fecha y rango de horas.</span>
+          <form id="formularioLogin" class="formularioAcceso">
+            <div class="campo">
+              <label class="etiqueta" for="correo">Correo institucional</label>
+              <input
+                class="caja"
+                id="correo"
+                name="correo"
+                type="email"
+                autocomplete="email"
+                placeholder="coordinacion@universidad.edu"
+                required
+              >
             </div>
-            <div class="piezaHero">
-              <strong>Laboratorios</strong>
-              <span>Espacios con capacidad y ubicacion visibles.</span>
+
+            <div class="campo">
+              <label class="etiqueta" for="clave">Clave</label>
+              <input
+                class="caja"
+                id="clave"
+                name="clave"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Escribe tu clave"
+                required
+              >
             </div>
-            <div class="piezaHero">
-              <strong>Auditorios</strong>
-              <span>Bloqueo automatico de reservas cruzadas.</span>
-            </div>
-          </div>
 
-          <div class="credencialesDemo">
-            <h2>Acceso de demostracion</h2>
-            <div class="filaCredencial">
-              <span>Correo</span>
-              <strong>coordinacion@universidad.edu</strong>
-            </div>
-            <div class="filaCredencial">
-              <span>Clave</span>
-              <strong>clave123</strong>
-            </div>
-          </div>
-        </section>
+            <div id="mensajeLogin" class="mensaje" aria-live="polite"></div>
 
-        <section class="ladoFormulario">
-          <div class="panelFormulario">
-            <div class="selloFormulario">Acceso institucional</div>
-            <h2 class="tituloFormulario">Iniciar sesion</h2>
-            <p class="subtituloFormulario">
-              Entra al sistema para habilitar el dashboard y el registro de reservas.
-            </p>
-
-            <form id="formularioLogin" class="formularioAcceso">
-              <div class="campo">
-                <label class="etiqueta" for="correo">Correo institucional</label>
-                <input
-                  class="caja"
-                  id="correo"
-                  name="correo"
-                  type="email"
-                  autocomplete="email"
-                  placeholder="coordinacion@universidad.edu"
-                  required
-                >
-              </div>
-
-              <div class="campo">
-                <label class="etiqueta" for="clave">Clave</label>
-                <input
-                  class="caja"
-                  id="clave"
-                  name="clave"
-                  type="password"
-                  autocomplete="current-password"
-                  placeholder="Escribe tu clave"
-                  required
-                >
-              </div>
-
-              <div id="mensajeLogin" class="mensaje" aria-live="polite"></div>
-
-              <button class="boton botonPrimario anchoTotal" type="submit">
-                Entrar al sistema
-              </button>
-            </form>
-
-            <p class="notaAcceso">
-              Despues de iniciar sesion podras abrir el dashboard y registrar una nueva reserva.
-            </p>
-          </div>
+            <button class="boton botonPrimario anchoTotal" type="submit">
+              Entrar
+            </button>
+          </form>
         </section>
       </main>
     </div>
