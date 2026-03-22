@@ -1,17 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const Database = require('better-sqlite3');
+const { Pool } = require('pg');
 
 let conexion;
-
-function rutaBaseDatos() {
-  if (process.env.DATABASE_FILE) {
-    return path.resolve(process.cwd(), process.env.DATABASE_FILE);
-  }
-
-  return path.join(__dirname, 'datos', 'reservas.db');
-}
+let inicializacion;
 
 function leerArchivo(nombre) {
   return fs.readFileSync(path.join(__dirname, 'datos', nombre), 'utf8');
@@ -21,177 +14,251 @@ function hashClave(clave) {
   return crypto.createHash('sha256').update(clave).digest('hex');
 }
 
-function obtenerConexion() {
+function configuracionPostgres() {
+  if (process.env.DATABASE_URL) {
+    return {
+      connectionString: process.env.DATABASE_URL
+    };
+  }
+
+  return {
+    host: process.env.PGHOST || 'localhost',
+    port: Number(process.env.PGPORT || 5432),
+    user: process.env.PGUSER || 'postgres',
+    password: process.env.PGPASSWORD || 'postgres',
+    database: process.env.PGDATABASE || 'reservas academicas'
+  };
+}
+
+async function crearConexion() {
   if (conexion) {
     return conexion;
   }
 
-  const ruta = rutaBaseDatos();
-  fs.mkdirSync(path.dirname(ruta), { recursive: true });
+  if (process.env.USAR_PG_MEM === '1') {
+    const { newDb } = require('pg-mem');
+    const baseMemoria = newDb({
+      autoCreateForeignKeyIndices: true
+    });
+    const adaptador = baseMemoria.adapters.createPg();
+    conexion = new adaptador.Pool();
+    return conexion;
+  }
 
-  conexion = new Database(ruta);
-  conexion.pragma('foreign_keys = ON');
-  conexion.exec(leerArchivo('esquema.sql'));
-  conexion.exec(leerArchivo('semillas.sql'));
-
+  conexion = new Pool(configuracionPostgres());
   return conexion;
 }
 
-function registrarUsuario({ nombre, correo, clave, rol = 'docente' }) {
-  const db = obtenerConexion();
-  const sentencia = db.prepare(`
-    INSERT INTO usuarios (nombre, correo, clave, rol)
-    VALUES (@nombre, @correo, @clave, @rol)
-  `);
-
-  const resultado = sentencia.run({
-    nombre,
-    correo,
-    clave: hashClave(clave),
-    rol
-  });
-
-  return db.prepare(`
-    SELECT id, nombre, correo, rol, creado_en
-    FROM usuarios
-    WHERE id = ?
-  `).get(resultado.lastInsertRowid);
+async function ejecutarScript(pool, nombre) {
+  await pool.query(leerArchivo(nombre));
 }
 
-function autenticarUsuario({ correo, clave }) {
-  const db = obtenerConexion();
-  return db.prepare(`
-    SELECT id, nombre, correo, rol, creado_en
-    FROM usuarios
-    WHERE correo = ? AND clave = ?
-  `).get(correo, hashClave(clave));
-}
-
-function obtenerEspacios() {
-  return obtenerConexion().prepare(`
-    SELECT id, nombre, tipo, ubicacion, capacidad, activo
-    FROM espacios
-    WHERE activo = 1
-    ORDER BY nombre
-  `).all();
-}
-
-function obtenerDisponibilidad({ fecha, horaInicio, horaFin, tipo }) {
-  const db = obtenerConexion();
-  const condiciones = [
-    'e.activo = 1',
-    `NOT EXISTS (
-      SELECT 1
-      FROM reservas r
-      WHERE r.espacio_id = e.id
-        AND r.fecha = @fecha
-        AND r.estado = 'confirmada'
-        AND r.hora_inicio < @horaFin
-        AND r.hora_fin > @horaInicio
-    )`
-  ];
-
-  if (tipo) {
-    condiciones.push('e.tipo = @tipo');
+async function obtenerConexion() {
+  if (conexion && !inicializacion) {
+    return conexion;
   }
 
-  const consulta = `
-    SELECT e.id, e.nombre, e.tipo, e.ubicacion, e.capacidad
-    FROM espacios e
-    WHERE ${condiciones.join(' AND ')}
-    ORDER BY e.capacidad ASC, e.nombre ASC
-  `;
+  if (!inicializacion) {
+    inicializacion = (async () => {
+      const pool = await crearConexion();
+      await ejecutarScript(pool, 'esquema.sql');
+      await ejecutarScript(pool, 'semillas.sql');
+      return pool;
+    })().catch((error) => {
+      conexion = null;
+      inicializacion = null;
+      throw error;
+    });
+  }
 
-  return db.prepare(consulta).all({
-    fecha,
-    horaInicio,
-    horaFin,
-    tipo
-  });
+  return inicializacion;
 }
 
-function crearReserva({ usuarioId, espacioId, fecha, horaInicio, horaFin, motivo }) {
-  const db = obtenerConexion();
-  const transaccion = db.transaction((datos) => {
-    const usuario = db.prepare(`
-      SELECT id, nombre, correo
-      FROM usuarios
-      WHERE id = ?
-    `).get(datos.usuarioId);
+async function cerrarConexion() {
+  if (!conexion) {
+    return;
+  }
 
-    if (!usuario) {
+  await conexion.end();
+  conexion = null;
+  inicializacion = null;
+}
+
+async function registrarUsuario({ nombre, correo, clave, rol = 'docente' }) {
+  const db = await obtenerConexion();
+  const resultado = await db.query(
+    `
+      INSERT INTO usuarios (nombre, correo, clave, rol)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, nombre, correo, rol, creado_en
+    `,
+    [nombre, correo, hashClave(clave), rol]
+  );
+
+  return resultado.rows[0];
+}
+
+async function autenticarUsuario({ correo, clave }) {
+  const db = await obtenerConexion();
+  const resultado = await db.query(
+    `
+      SELECT id, nombre, correo, rol, creado_en
+      FROM usuarios
+      WHERE correo = $1 AND clave = $2
+      LIMIT 1
+    `,
+    [correo, hashClave(clave)]
+  );
+
+  return resultado.rows[0] || null;
+}
+
+async function obtenerEspacios() {
+  const db = await obtenerConexion();
+  const resultado = await db.query(`
+    SELECT id, nombre, tipo, ubicacion, capacidad, activo
+    FROM espacios
+    WHERE activo = TRUE
+    ORDER BY nombre
+  `);
+
+  return resultado.rows;
+}
+
+async function obtenerDisponibilidad({ fecha, horaInicio, horaFin, tipo }) {
+  const db = await obtenerConexion();
+  const valores = [fecha, horaFin, horaInicio];
+  let filtroTipo = '';
+
+  if (tipo) {
+    valores.push(tipo);
+    filtroTipo = 'AND e.tipo = $4';
+  }
+
+  const resultado = await db.query(
+    `
+      SELECT e.id, e.nombre, e.tipo, e.ubicacion, e.capacidad
+      FROM espacios e
+      LEFT JOIN reservas r
+        ON r.espacio_id = e.id
+       AND r.fecha = $1::date
+       AND r.estado = 'confirmada'
+       AND r.hora_inicio < $2::time
+       AND r.hora_fin > $3::time
+      WHERE e.activo = TRUE
+        ${filtroTipo}
+        AND r.id IS NULL
+      ORDER BY e.capacidad ASC, e.nombre ASC
+    `,
+    valores
+  );
+
+  return resultado.rows;
+}
+
+async function crearReserva({ usuarioId, espacioId, fecha, horaInicio, horaFin, motivo }) {
+  const db = await obtenerConexion();
+  const cliente = await db.connect();
+
+  try {
+    await cliente.query('BEGIN');
+
+    const usuario = await cliente.query(
+      `
+        SELECT id, nombre, correo
+        FROM usuarios
+        WHERE id = $1
+        LIMIT 1
+      `,
+      [usuarioId]
+    );
+
+    if (!usuario.rows[0]) {
       const error = new Error('El usuario no existe');
       error.code = 'USUARIO_NO_EXISTE';
       throw error;
     }
 
-    const espacio = db.prepare(`
-      SELECT id, nombre, tipo, ubicacion, capacidad
-      FROM espacios
-      WHERE id = ? AND activo = 1
-    `).get(datos.espacioId);
+    const espacio = await cliente.query(
+      `
+        SELECT id, nombre, tipo, ubicacion, capacidad
+        FROM espacios
+        WHERE id = $1 AND activo = TRUE
+        LIMIT 1
+      `,
+      [espacioId]
+    );
 
-    if (!espacio) {
+    if (!espacio.rows[0]) {
       const error = new Error('El espacio no existe o no esta disponible');
       error.code = 'ESPACIO_NO_EXISTE';
       throw error;
     }
 
-    const cruce = db.prepare(`
-      SELECT id
-      FROM reservas
-      WHERE espacio_id = @espacioId
-        AND fecha = @fecha
-        AND estado = 'confirmada'
-        AND hora_inicio < @horaFin
-        AND hora_fin > @horaInicio
-      LIMIT 1
-    `).get(datos);
+    const cruce = await cliente.query(
+      `
+        SELECT id
+        FROM reservas
+        WHERE espacio_id = $1
+          AND fecha = $2::date
+          AND estado = 'confirmada'
+          AND hora_inicio < $4::time
+          AND hora_fin > $3::time
+        LIMIT 1
+      `,
+      [espacioId, fecha, horaInicio, horaFin]
+    );
 
-    if (cruce) {
+    if (cruce.rows[0]) {
       const error = new Error('El espacio ya tiene una reserva en ese horario');
       error.code = 'RESERVA_DUPLICADA';
       throw error;
     }
 
-    const insercion = db.prepare(`
-      INSERT INTO reservas (usuario_id, espacio_id, fecha, hora_inicio, hora_fin, motivo)
-      VALUES (@usuarioId, @espacioId, @fecha, @horaInicio, @horaFin, @motivo)
-    `).run(datos);
+    const insercion = await cliente.query(
+      `
+        INSERT INTO reservas (usuario_id, espacio_id, fecha, hora_inicio, hora_fin, motivo)
+        VALUES ($1, $2, $3::date, $4::time, $5::time, $6)
+        RETURNING id
+      `,
+      [usuarioId, espacioId, fecha, horaInicio, horaFin, motivo]
+    );
 
-    return db.prepare(`
-      SELECT
-        r.id,
-        r.fecha,
-        r.hora_inicio,
-        r.hora_fin,
-        r.motivo,
-        r.estado,
-        u.nombre AS usuario,
-        u.correo AS correo_usuario,
-        e.nombre AS espacio,
-        e.tipo,
-        e.ubicacion
-      FROM reservas r
-      INNER JOIN usuarios u ON u.id = r.usuario_id
-      INNER JOIN espacios e ON e.id = r.espacio_id
-      WHERE r.id = ?
-    `).get(insercion.lastInsertRowid);
-  });
+    const reserva = await cliente.query(
+      `
+        SELECT
+          r.id,
+          r.fecha,
+          r.hora_inicio,
+          r.hora_fin,
+          r.motivo,
+          r.estado,
+          u.nombre AS usuario,
+          u.correo AS correo_usuario,
+          e.nombre AS espacio,
+          e.tipo,
+          e.ubicacion
+        FROM reservas r
+        INNER JOIN usuarios u ON u.id = r.usuario_id
+        INNER JOIN espacios e ON e.id = r.espacio_id
+        WHERE r.id = $1
+      `,
+      [insercion.rows[0].id]
+    );
 
-  return transaccion({
-    usuarioId,
-    espacioId,
-    fecha,
-    horaInicio,
-    horaFin,
-    motivo
-  });
+    await cliente.query('COMMIT');
+    return reserva.rows[0];
+  } catch (error) {
+    await cliente.query('ROLLBACK');
+    throw error;
+  } finally {
+    cliente.release();
+  }
 }
 
-function obtenerReservas() {
-  const db = obtenerConexion();
-  return db.prepare(`
+async function obtenerReservas() {
+  const db = await obtenerConexion();
+  const resultado = await db.query(`
     SELECT
       r.id,
       r.fecha,
@@ -205,11 +272,14 @@ function obtenerReservas() {
     INNER JOIN usuarios u ON u.id = r.usuario_id
     INNER JOIN espacios e ON e.id = r.espacio_id
     ORDER BY r.fecha ASC, r.hora_inicio ASC
-  `).all();
+  `);
+
+  return resultado.rows;
 }
 
 module.exports = {
   obtenerConexion,
+  cerrarConexion,
   registrarUsuario,
   autenticarUsuario,
   obtenerEspacios,

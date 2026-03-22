@@ -1,13 +1,6 @@
-const fs = require('fs');
-const path = require('path');
 const { spawn } = require('child_process');
 
 const puerto = 3101;
-const rutaBase = path.join(__dirname, 'datos', 'pruebas.db');
-
-if (fs.existsSync(rutaBase)) {
-  fs.unlinkSync(rutaBase);
-}
 
 function esperar(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -40,7 +33,8 @@ async function ejecutar() {
     env: {
       ...process.env,
       PORT: String(puerto),
-      DATABASE_FILE: 'datos/pruebas.db'
+      PGDATABASE: 'reservas academicas',
+      USAR_PG_MEM: '1'
     },
     stdio: ['ignore', 'pipe', 'pipe']
   });
@@ -64,6 +58,9 @@ async function ejecutar() {
         clave: 'clave123'
       })
     });
+
+    const espacios = await llamar(`http://127.0.0.1:${puerto}/api/espacios`);
+    const primerEspacio = espacios.datos.datos[0];
 
     const usuario = await llamar(`http://127.0.0.1:${puerto}/api/usuarios`, {
       method: 'POST',
@@ -94,7 +91,7 @@ async function ejecutar() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         usuarioId: usuario.datos.datos.id,
-        espacioId: 1,
+        espacioId: primerEspacio.id,
         fecha: '2026-03-25',
         horaInicio: '08:00',
         horaFin: '10:00',
@@ -107,7 +104,7 @@ async function ejecutar() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         usuarioId: usuario.datos.datos.id,
-        espacioId: 1,
+        espacioId: primerEspacio.id,
         fecha: '2026-03-25',
         horaInicio: '09:00',
         horaFin: '11:00',

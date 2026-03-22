@@ -6,9 +6,9 @@ Se eligio una arquitectura simple de tres capas:
 
 1. Capa de presentacion con wireframes HTML para mostrar la idea visual del sistema.
 2. Capa de API REST construida con Node.js y Express.
-3. Capa de datos en SQLite con relaciones entre usuarios, espacios y reservas.
+3. Capa de datos en PostgreSQL con relaciones entre usuarios, espacios y reservas.
 
-Esta estructura permite defender bien la parte de analisis y al mismo tiempo dejar una base tecnica funcional y facil de ampliar.
+Esta estructura permite defender bien la parte de analisis y al mismo tiempo dejar una base tecnica funcional y facil de ampliar. La base principal del proyecto se llama `reservas academicas`.
 
 ## Wireframes entregados
 
