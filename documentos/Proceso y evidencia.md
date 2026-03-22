@@ -32,5 +32,8 @@ Registro real de commits generados durante el desarrollo:
 3. `b14878d` - Agrega pruebas y guion de presentacion
 4. `3b04b7a` - Actualiza evidencia con historial real
 5. `a01d6d4` - Refuerza acceso con login y vistas protegidas
+6. `2b524bd` - Actualiza evidencia del nuevo flujo de acceso
+7. `915897d` - Simplifica login y ordena tarjetas del dashboard
+8. `bc92fa4` - Migra la base de datos a PostgreSQL
 
 Con este historial se puede mostrar que el trabajo fue avanzando por etapas y no aparecio de una sola vez.
