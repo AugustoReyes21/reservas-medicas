@@ -37,9 +37,11 @@ Configuracion esperada por defecto:
 PGHOST=localhost
 PGPORT=5432
 PGUSER=postgres
-PGPASSWORD=postgres
+PGPASSWORD=Buenas123
 PGDATABASE=reservas academicas
 ```
+
+Si la base `reservas academicas` aun no existe, el backend ahora intenta crearla automaticamente al iniciar usando el mismo usuario configurado.
 
 Si prefieres usar `DATABASE_URL`, recuerda que el espacio debe ir codificado:
 
