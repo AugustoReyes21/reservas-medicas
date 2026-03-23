@@ -25,9 +25,48 @@ function configuracionPostgres() {
     host: process.env.PGHOST || 'localhost',
     port: Number(process.env.PGPORT || 5432),
     user: process.env.PGUSER || 'postgres',
-    password: process.env.PGPASSWORD || 'postgres',
+    password: process.env.PGPASSWORD || 'Buenas123',
     database: process.env.PGDATABASE || 'reservas academicas'
   };
+}
+
+function configuracionMantenimiento() {
+  const baseMantenimiento = process.env.PGMAINTENANCE_DB || 'postgres';
+
+  if (process.env.DATABASE_URL) {
+    const url = new URL(process.env.DATABASE_URL);
+    url.pathname = `/${baseMantenimiento}`;
+    return {
+      connectionString: url.toString()
+    };
+  }
+
+  return {
+    ...configuracionPostgres(),
+    database: baseMantenimiento
+  };
+}
+
+function escaparIdentificador(valor) {
+  return `"${String(valor).replace(/"/g, '""')}"`;
+}
+
+async function asegurarBaseDatos() {
+  const configuracion = configuracionPostgres();
+  const mantenimiento = new Pool(configuracionMantenimiento());
+
+  try {
+    const existe = await mantenimiento.query(
+      'SELECT 1 FROM pg_database WHERE datname = $1 LIMIT 1',
+      [configuracion.database]
+    );
+
+    if (!existe.rows[0]) {
+      await mantenimiento.query(`CREATE DATABASE ${escaparIdentificador(configuracion.database)}`);
+    }
+  } finally {
+    await mantenimiento.end();
+  }
 }
 
 async function crearConexion() {
@@ -45,7 +84,25 @@ async function crearConexion() {
     return conexion;
   }
 
-  conexion = new Pool(configuracionPostgres());
+  const configuracion = configuracionPostgres();
+  conexion = new Pool(configuracion);
+
+  try {
+    await conexion.query('SELECT 1');
+  } catch (error) {
+    await conexion.end().catch(() => {});
+    conexion = null;
+
+    if (error.code === '3D000') {
+      await asegurarBaseDatos();
+      conexion = new Pool(configuracion);
+      await conexion.query('SELECT 1');
+      return conexion;
+    }
+
+    throw error;
+  }
+
   return conexion;
 }
 
