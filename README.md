@@ -1,4 +1,4 @@
-# Reservas medicas
+# Reservas academicas
 
 Este repositorio contiene la entrega del sistema y el video de evidencia.
 
