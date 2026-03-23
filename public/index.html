@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesion</title>
+    <link rel="stylesheet" href="/estilos.css">
+  </head>
+  <body class="paginaAcceso">
+    <div class="escenaAcceso">
+      <div class="orbita orbitaUno"></div>
+      <div class="orbita orbitaDos"></div>
+      <div class="orbita orbitaTres"></div>
+
+      <main class="panelAccesoSimple">
+        <section class="panelFormulario accesoCentrado">
+          <h1 class="tituloFormulario">Iniciar sesion</h1>
+
+          <form id="formularioLogin" class="formularioAcceso" autocomplete="off">
+            <div class="campo">
+              <label class="etiqueta" for="correo">Correo institucional</label>
+              <input
+                class="caja"
+                id="correo"
+                name="accesoCorreo"
+                type="text"
+                inputmode="email"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="coordinacion@universidad.edu"
+                required
+              >
+            </div>
+
+            <div class="campo">
+              <label class="etiqueta" for="clave">Clave</label>
+              <input
+                class="caja cajaClaveOculta"
+                id="clave"
+                name="accesoClave"
+                type="text"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="Escribe tu clave"
+                required
+              >
+            </div>
+
+            <div id="mensajeLogin" class="mensaje" aria-live="polite"></div>
+
+            <button class="boton botonPrimario anchoTotal" type="submit">
+              Entrar
+            </button>
+          </form>
+        </section>
+      </main>
+    </div>
+    <script src="/autenticacion.js"></script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva</title>
+    <link rel="stylesheet" href="/estilos.css">
+  </head>
+  <body class="protegida">
+    <div class="contenedor">
+      <div class="barra">
+        <div>
+          <div class="marca">Reserva</div>
+          <div class="mini">
+            Nueva solicitud para <strong data-nombre-usuario>Usuario</strong>
+          </div>
+        </div>
+        <div class="acciones">
+          <a class="boton" href="/dashboard.html">Dashboard</a>
+          <button class="boton botonSecundario" type="button" data-cerrar-sesion>
+            Cerrar sesion
+          </button>
+        </div>
+      </div>
+
+      <div class="rejilla dos">
+        <section class="tarjeta destaque">
+          <h1 class="titulo">Nueva reserva</h1>
+          <p class="subtitulo">
+            Completa la solicitud con el usuario actual y el sistema evitara reservas cruzadas.
+          </p>
+
+          <form id="formularioReserva">
+            <div class="rejilla tres">
+              <div class="campo">
+                <label class="etiqueta" for="espacioId">Espacio</label>
+                <select class="seleccion" id="espacioId" name="espacioId" required></select>
+              </div>
+              <div class="campo">
+                <label class="etiqueta" for="fechaReserva">Fecha</label>
+                <input class="caja" id="fechaReserva" name="fecha" type="date" required>
+              </div>
+              <div class="campo">
+                <label class="etiqueta" for="motivoReserva">Motivo</label>
+                <input
+                  class="caja"
+                  id="motivoReserva"
+                  name="motivo"
+                  type="text"
+                  placeholder="Clase, practica o actividad"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="rejilla dos">
+              <div class="campo">
+                <label class="etiqueta" for="horaInicioReserva">Hora inicio</label>
+                <input class="caja" id="horaInicioReserva" name="horaInicio" type="time" value="08:00" required>
+              </div>
+              <div class="campo">
+                <label class="etiqueta" for="horaFinReserva">Hora fin</label>
+                <input class="caja" id="horaFinReserva" name="horaFin" type="time" value="10:00" required>
+              </div>
+            </div>
+
+            <div id="mensajeReserva" class="mensaje" aria-live="polite"></div>
+
+            <button class="boton botonPrimario anchoTotal" type="submit">
+              Guardar reserva
+            </button>
+          </form>
+        </section>
+
+        <aside class="tarjeta">
+          <h2 class="titulo">Estado del espacio</h2>
+          <div class="linea">
+            <span>Disponibilidad</span>
+            <strong id="estadoEspacio">Sin revisar</strong>
+          </div>
+          <div class="linea">
+            <span>Capacidad</span>
+            <strong id="capacidadEspacio">0 personas</strong>
+          </div>
+          <div class="linea">
+            <span>Ubicacion</span>
+            <strong id="ubicacionEspacio">Pendiente</strong>
+          </div>
+          <div class="linea">
+            <span>Tipo</span>
+            <strong id="tipoEspacio">Pendiente</strong>
+          </div>
+          <div class="nota">
+            <span id="detalleDisponibilidad">
+              Cambia fecha y horario para revisar si el espacio sigue libre antes de guardar.
+            </span>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <script src="/autenticacion.js"></script>
+    <script src="/reserva.js"></script>
+  </body>
+</html>
