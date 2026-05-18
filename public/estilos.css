@@ -400,6 +400,10 @@ button {
   box-shadow: 0 0 0 4px rgba(43, 93, 83, 0.12);
 }
 
+.cajaClaveOculta {
+  -webkit-text-security: disc;
+}
+
 .mensaje {
   display: none;
   padding: 13px 15px;

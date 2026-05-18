@@ -13,7 +13,9 @@ La idea fue mantener una solucion pequeña pero coherente, facil de explicar y s
 3. Base de datos relacional PostgreSQL definida en `datos/esquema.sql`.
 4. API funcional en `servidor.js` y `basedatos.js`.
 5. Prueba automatica en `pruebas.js`.
-6. Historial de commits del proyecto.
+6. Pruebas automatizadas de interfaz con Selenium y Python en `pruebas_selenium/`.
+7. Video de demostracion generado en `documentos/evidencias/video-demo-selenium.mp4`.
+8. Historial de commits del proyecto.
 
 ## Como demostrar el funcionamiento
 
@@ -22,6 +24,8 @@ La idea fue mantener una solucion pequeña pero coherente, facil de explicar y s
 3. Abrir `http://localhost:3000/`.
 4. Iniciar sesion y despues probar en navegador o con una herramienta de API las rutas `/api/disponibilidad` y `/api/reservas`.
 5. Ejecutar `npm test` para mostrar la validacion automatica.
+6. Crear el entorno Python, instalar `requirements.txt` y ejecutar `npm run test:selenium`.
+7. Mostrar el video de evidencia o regenerarlo con `python video/generar_video_demo.py`.
 
 ## Historial de avances
 

@@ -121,3 +121,28 @@ npm test
 ```
 
 La prueba levanta el servidor con PostgreSQL en memoria, valida el login, registra un usuario, crea una reserva y confirma que una segunda reserva en horario cruzado sea rechazada.
+
+## Pruebas Selenium con Python
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+npm run test:selenium
+```
+
+La suite Selenium esta en `pruebas_selenium/` y valida login, dashboard, reserva, bloqueo de horarios cruzados y cierre de sesion. La documentacion completa esta en `documentos/Pruebas Selenium.md`.
+
+## Video de demostracion
+
+El video generado para la evidencia queda en:
+
+```text
+documentos/evidencias/video-demo-selenium.mp4
+```
+
+Si se necesita reconstruirlo:
+
+```bash
+python video/generar_video_demo.py
+```

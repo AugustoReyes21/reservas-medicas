@@ -12,33 +12,40 @@
       <div class="orbita orbitaDos"></div>
       <div class="orbita orbitaTres"></div>
 
-      <main class="panelAccesoSimple">
+      <main class="panelAccesoSimple" tabindex="-1" id="panelAcceso">
         <section class="panelFormulario accesoCentrado">
           <h1 class="tituloFormulario">Iniciar sesion</h1>
 
-          <form id="formularioLogin" class="formularioAcceso">
+          <form id="formularioLogin" class="formularioAcceso" autocomplete="off">
             <div class="campo">
-              <label class="etiqueta" for="correo">Correo institucional</label>
+              <label class="etiqueta" for="contactoInstitucional">Correo institucional</label>
               <input
                 class="caja"
-                id="correo"
-                name="correo"
-                type="email"
-                autocomplete="email"
-                placeholder="coordinacion@universidad.edu"
+                id="contactoInstitucional"
+                name="datoInstitucional"
+                type="text"
+                inputmode="text"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="usuario institucional"
                 required
               >
             </div>
 
             <div class="campo">
-              <label class="etiqueta" for="clave">Clave</label>
+              <label class="etiqueta" for="codigoSeguro">Clave</label>
               <input
-                class="caja"
-                id="clave"
-                name="clave"
-                type="password"
-                autocomplete="current-password"
-                placeholder="Escribe tu clave"
+                class="caja cajaClaveOculta"
+                id="codigoSeguro"
+                name="codigoSeguro"
+                type="text"
+                autocomplete="one-time-code"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="codigo de acceso"
                 required
               >
             </div>

@@ -83,8 +83,10 @@
     formulario.addEventListener('submit', async (evento) => {
       evento.preventDefault();
 
-      const correo = formulario.correo.value.trim();
-      const clave = formulario.clave.value;
+      const entradaCorreo = formulario.querySelector('#contactoInstitucional');
+      const entradaClave = formulario.querySelector('#codigoSeguro');
+      const correo = entradaCorreo ? entradaCorreo.value.trim() : '';
+      const clave = entradaClave ? entradaClave.value : '';
 
       mostrarMensajeLogin('Verificando acceso...', 'informacion');
 
@@ -116,11 +118,28 @@
     });
   }
 
+  function despejarFocoInicial() {
+    const panel = document.getElementById('panelAcceso');
+
+    if (!panel) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      if (document.activeElement && typeof document.activeElement.blur === 'function') {
+        document.activeElement.blur();
+      }
+
+      panel.focus({ preventScroll: true });
+    }, 80);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     if (!protegerRutas()) {
       return;
     }
 
+    despejarFocoInicial();
     escribirUsuarios();
     prepararCerrarSesion();
     prepararLogin();
