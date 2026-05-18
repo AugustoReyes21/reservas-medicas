@@ -32,17 +32,20 @@ def esperar_servidor():
 
 def iniciar_navegador():
     navegador = os.environ.get("SELENIUM_BROWSER", "chrome").lower()
+    modo_headless = os.environ.get("SELENIUM_HEADLESS", "0") == "1"
 
     if navegador == "firefox":
         opciones = FirefoxOptions()
-        opciones.add_argument("-headless")
+        if modo_headless:
+            opciones.add_argument("-headless")
         return webdriver.Firefox(options=opciones)
 
     if navegador == "safari":
         return webdriver.Safari(options=SafariOptions())
 
     opciones = ChromeOptions()
-    opciones.add_argument("--headless=new")
+    if modo_headless:
+        opciones.add_argument("--headless=new")
     opciones.add_argument("--no-sandbox")
     opciones.add_argument("--disable-dev-shm-usage")
     opciones.add_argument("--window-size=1440,1000")

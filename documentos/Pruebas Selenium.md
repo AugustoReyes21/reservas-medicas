@@ -18,7 +18,13 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-Selenium Manager descarga o localiza automaticamente el driver del navegador. Por defecto se usa Chrome en modo headless.
+Selenium Manager descarga o localiza automaticamente el driver del navegador. Por defecto se usa Chrome visible para facilitar la demostracion.
+
+Si se desea ejecutar sin abrir la ventana del navegador:
+
+```bash
+SELENIUM_HEADLESS=1 npm run test:selenium
+```
 
 ## Ejecucion
 
