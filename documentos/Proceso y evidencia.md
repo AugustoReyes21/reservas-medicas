@@ -14,8 +14,7 @@ La idea fue mantener una solucion pequeña pero coherente, facil de explicar y s
 4. API funcional en `servidor.js` y `basedatos.js`.
 5. Prueba automatica en `pruebas.js`.
 6. Pruebas automatizadas de interfaz con Selenium y Python en `pruebas_selenium/`.
-7. Video de demostracion generado en `documentos/evidencias/video-demo-selenium.mp4`.
-8. Historial de commits del proyecto.
+7. Historial de commits del proyecto.
 
 ## Como demostrar el funcionamiento
 
@@ -25,7 +24,6 @@ La idea fue mantener una solucion pequeña pero coherente, facil de explicar y s
 4. Iniciar sesion y despues probar en navegador o con una herramienta de API las rutas `/api/disponibilidad` y `/api/reservas`.
 5. Ejecutar `npm test` para mostrar la validacion automatica.
 6. Crear el entorno Python, instalar `requirements.txt` y ejecutar `npm run test:selenium`.
-7. Mostrar el video de evidencia o regenerarlo con `python video/generar_video_demo.py`.
 
 ## Historial de avances
 
@@ -33,7 +31,7 @@ Registro real de commits generados durante el desarrollo:
 
 1. `8c78c00` - Agrega documentacion inicial y wireframes
 2. `8069830` - Implementa API y base de datos inicial
-3. `b14878d` - Agrega pruebas y guion de presentacion
+3. `b14878d` - Agrega pruebas y material de presentacion
 4. `3b04b7a` - Actualiza evidencia con historial real
 5. `a01d6d4` - Refuerza acceso con login y vistas protegidas
 6. `2b524bd` - Actualiza evidencia del nuevo flujo de acceso

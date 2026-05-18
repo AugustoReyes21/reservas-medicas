@@ -32,17 +32,3 @@ Tambien se puede ejecutar directamente:
 ```bash
 python -m unittest discover -s pruebas_selenium -p 'test_*.py' -v
 ```
-
-## Video de evidencia
-
-El script `video/generar_video_demo.py` levanta el sistema con PostgreSQL en memoria, ejecuta el flujo principal en el navegador y genera un MP4 en:
-
-```text
-documentos/evidencias/video-demo-selenium.mp4
-```
-
-Para regenerarlo:
-
-```bash
-python video/generar_video_demo.py
-```

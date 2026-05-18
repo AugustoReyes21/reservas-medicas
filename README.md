@@ -132,21 +132,3 @@ npm run test:selenium
 ```
 
 La suite Selenium esta en `pruebas_selenium/` y valida login, dashboard, reserva, bloqueo de horarios cruzados y cierre de sesion. La documentacion completa esta en `documentos/Pruebas Selenium.md`.
-
-## Video de demostracion
-
-El video generado para la evidencia queda en:
-
-```text
-documentos/evidencias/video-demo-selenium.mp4
-```
-
-Tambien se conserva el enlace al release de evidencia existente en GitHub:
-
-- https://github.com/AugustoReyes21/reservas-medicas/releases/tag/video-evidencia
-
-Si se necesita reconstruirlo:
-
-```bash
-python video/generar_video_demo.py
-```
