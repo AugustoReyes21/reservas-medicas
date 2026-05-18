@@ -141,6 +141,10 @@ El video generado para la evidencia queda en:
 documentos/evidencias/video-demo-selenium.mp4
 ```
 
+Tambien se conserva el enlace al release de evidencia existente en GitHub:
+
+- https://github.com/AugustoReyes21/reservas-medicas/releases/tag/video-evidencia
+
 Si se necesita reconstruirlo:
 
 ```bash
